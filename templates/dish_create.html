@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="dish-wrapper">
+
+    <div class="dish-card">
+
+        <div class="dish-header">
+            <h1>🍔 Create New Dish</h1>
+            <p>Add a delicious meal to your restaurant menu</p>
+        </div>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- NAME -->
+            <div class="form-group">
+                <label>Dish Name</label>
+                <input type="text" name="name" placeholder="e.g. Double Cheeseburger" required>
+            </div>
+
+            <!-- PRICE -->
+            <div class="form-group">
+                <label>Price</label>
+                <input type="number" name="price" placeholder="e.g. 45000" required>
+            </div>
+
+            <!-- IMAGE -->
+            <div class="form-group">
+                <label>Dish Image</label>
+                <input type="file" name="image" accept="image/*">
+            </div>
+
+            <button type="submit">
+                ➕ Create Dish
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<style>
+
+.dish-wrapper{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px 20px;
+    min-height:80vh;
+}
+
+.dish-card{
+    width:100%;
+    max-width:700px;
+
+    background:rgba(255,255,255,.05);
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:28px;
+
+    padding:40px;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.45);
+
+    animation:slideUp .8s ease;
+}
+
+.dish-header{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.dish-header h1{
+    font-size:2rem;
+    margin-bottom:10px;
+
+    background:linear-gradient(90deg,#f97316,#fb7185);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.dish-header p{
+    color:#9ca3af;
+}
+
+.form-group{
+    margin-bottom:22px;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    color:#d4d4d8;
+}
+
+input{
+    width:100%;
+    padding:14px;
+    background:#111827;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:14px;
+    color:white;
+}
+
+input:focus{
+    outline:none;
+    border-color:#f97316;
+    box-shadow:0 0 0 4px rgba(249,115,22,.15);
+}
+
+button{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:16px;
+    background:linear-gradient(135deg,#f97316,#fb7185);
+    color:white;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+button:hover{
+    transform:translateY(-4px);
+    box-shadow:0 15px 35px rgba(249,115,22,.30);
+}
+
+@keyframes slideUp{
+    from{opacity:0;transform:translateY(30px);}
+    to{opacity:1;transform:translateY(0);}
+}
+
+</style>
+
+{% endblock %}

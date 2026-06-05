@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="page">
+
+    <!-- HEADER -->
+    <div class="header">
+
+        <h1>👥 Users</h1>
+
+        <a href="{% url 'user_create' %}" class="add-btn">
+            + Add User
+        </a>
+
+    </div>
+
+    <!-- GRID -->
+    <div class="grid">
+
+        {% for u in users %}
+
+        <a href="{% url 'user_detail' u.slug %}" class="card">
+
+            <!-- AVATAR -->
+            {% if u.image %}
+                <img src="{{ u.image.url }}">
+            {% else %}
+                <img src="{{ MEDIA_URL }}images/default.jpg">
+            {% endif %}
+
+            <h3>
+                {{ u.first_name|default:"No" }} {{ u.last_name|default:"Name" }}
+            </h3>
+
+            <p>{{ u.email|default:"No email" }}</p>
+
+        </a>
+
+        {% empty %}
+
+        <p class="empty">No users found 👤</p>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+<style>
+
+/* PAGE */
+.page{
+    max-width:1200px;
+    margin:auto;
+    padding:40px;
+}
+
+/* HEADER */
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+.header h1{
+    color:white;
+}
+
+/* ADD BTN */
+.add-btn{
+    padding:12px 18px;
+    border-radius:12px;
+    text-decoration:none;
+    font-weight:600;
+
+    background:linear-gradient(90deg,#38bdf8,#f97316);
+    color:white;
+
+    transition:.3s;
+}
+
+.add-btn:hover{
+    transform:translateY(-3px);
+}
+
+/* GRID */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+    gap:20px;
+}
+
+/* CARD (CLICKABLE) */
+.card{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    padding:25px;
+
+    text-decoration:none;
+
+    background:rgba(255,255,255,0.04);
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:20px;
+
+    transition:.3s;
+
+    animation:fadeUp .5s ease;
+}
+
+.card:hover{
+    transform:translateY(-10px) scale(1.03);
+    box-shadow:0 10px 40px rgba(56,189,248,.2);
+}
+
+/* IMAGE */
+.card img{
+    width:110px;
+    height:110px;
+
+    border-radius:50%;
+    object-fit:cover;
+
+    border:3px solid rgba(255,255,255,0.1);
+
+    transition:.3s;
+}
+
+.card:hover img{
+    transform:scale(1.05);
+}
+
+/* TEXT */
+.card h3{
+    color:white;
+    margin-top:15px;
+}
+
+.card p{
+    color:#aaa;
+    font-size:14px;
+}
+
+/* EMPTY */
+.empty{
+    color:#aaa;
+}
+
+/* ANIMATION */
+@keyframes fadeUp{
+    from{opacity:0;transform:translateY(30px);}
+    to{opacity:1;transform:translateY(0);}
+}
+
+</style>
+
+{% endblock %}

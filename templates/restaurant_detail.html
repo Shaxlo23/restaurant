@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="restaurant-page">
+
+    <!-- HEADER -->
+    <div class="restaurant-header">
+
+        {% if restaurant.logo %}
+            <img src="{{ restaurant.logo.url }}" class="logo" alt="{{ restaurant.name }}">
+        {% else %}
+            <img src="/media/logos/default.jpg" class="logo">
+        {% endif %}
+
+        <div class="info">
+
+            <h1>{{ restaurant.name }}</h1>
+
+            <p>📍 {{ restaurant.address }}</p>
+            <p>📞 {{ restaurant.phone }}</p>
+
+            <p>
+                👤 Owner:
+                {% if restaurant.owner %}
+                    {{ restaurant.owner.first_name }} {{ restaurant.owner.last_name }}
+                {% else %}
+                    Unknown
+                {% endif %}
+            </p>
+
+            <p>📅 {{ restaurant.created_at|date:"d M Y" }}</p>
+
+        </div>
+
+    </div>
+
+    <!-- ACTIONS -->
+    {% if request.user == restaurant.owner %}
+
+    <div class="actions">
+
+        <!-- EDIT -->
+        <a href="{% url 'restaurant_update' restaurant.slug %}" class="btn edit">
+            ✏️ Edit
+        </a>
+
+        <!-- DELETE -->
+        <a href="{% url 'restaurant_delete' restaurant.slug %}" class="btn delete">
+            🗑️ Delete
+        </a>
+
+        <!-- ADD DISH -->
+        {% if restaurant.slug %}
+        <a href="{% url 'dish_create' restaurant.slug %}" class="btn add">
+            ➕ Add Dish
+        </a>
+        {% endif %}
+
+    </div>
+
+    {% endif %}
+
+    <!-- TITLE -->
+    <h2 class="section-title">🍽️ Dishes</h2>
+
+    <!-- DISH GRID -->
+    <div class="dish-grid">
+
+        {% for dish in restaurant.dishes.all %}
+
+        <div class="dish-card">
+
+            {% if dish.image %}
+                <img src="{{ dish.image.url }}" alt="{{ dish.name }}">
+            {% endif %}
+
+            <div class="dish-body">
+
+                <h3>{{ dish.name }}</h3>
+
+                <p class="price">${{ dish.price }}</p>
+
+                <span class="status {% if dish.is_available %}ok{% else %}no{% endif %}">
+                    {% if dish.is_available %}Available{% else %}Not Available{% endif %}
+                </span>
+
+                <div class="tags">
+                    {% for category in dish.categories.all %}
+                        <span>{{ category.name }}</span>
+                    {% endfor %}
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+            <p class="empty">No dishes found 🍽️</p>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+<style>
+
+.restaurant-page{
+    max-width:1200px;
+    margin:40px auto;
+    padding:20px;
+}
+
+.restaurant-header{
+    display:flex;
+    gap:25px;
+    align-items:center;
+    padding:25px;
+    background:rgba(255,255,255,.04);
+    backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:22px;
+}
+
+.logo{
+    width:180px;
+    height:180px;
+    object-fit:cover;
+    border-radius:18px;
+}
+
+.info h1{ font-size:2rem; margin-bottom:10px; }
+
+.info p{ color:#a1a1aa; margin:6px 0; }
+
+.actions{
+    margin-top:20px;
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    padding:10px 16px;
+    border-radius:12px;
+    text-decoration:none;
+    font-weight:600;
+    transition:.3s;
+}
+
+.edit{ background:#3b82f6; color:white; }
+.delete{ background:#ef4444; color:white; }
+.add{ background:linear-gradient(135deg,#f97316,#fb7185); color:white; }
+
+.btn:hover{
+    transform:translateY(-3px);
+}
+
+.section-title{
+    margin:40px 0 20px;
+    color:white;
+}
+
+.dish-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:20px;
+}
+
+.dish-card{
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:18px;
+    overflow:hidden;
+    transition:.3s;
+}
+
+.dish-card:hover{
+    transform:translateY(-8px);
+}
+
+.dish-card img{
+    width:100%;
+    height:200px;
+    object-fit:cover;
+}
+
+.dish-body{ padding:18px; }
+
+.price{ color:#22c55e; font-weight:700; }
+
+.status.ok{ color:#22c55e; }
+.status.no{ color:#ef4444; }
+
+.tags span{
+    display:inline-block;
+    margin:3px;
+    padding:5px 10px;
+    font-size:12px;
+    border-radius:999px;
+    background:rgba(255,255,255,.06);
+    color:#d4d4d8;
+}
+
+.empty{ color:#a1a1aa; }
+
+</style>
+
+{% endblock %}

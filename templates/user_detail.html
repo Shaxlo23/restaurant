@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="profile-page">
+
+    <div class="card">
+
+        <!-- AVATAR -->
+        <div class="avatar">
+
+            {% if user_obj.image %}
+                <img src="{{ user_obj.image.url }}" alt="profile image">
+            {% else %}
+                <img src="/media/images/default.jpg" alt="default image">
+            {% endif %}
+
+        </div>
+
+        <!-- NAME -->
+        <h1>
+            {{ user_obj.first_name }} {{ user_obj.last_name }}
+        </h1>
+
+        <!-- INFO -->
+        <p class="email">📧 {{ user_obj.email }}</p>
+        <p class="phone">📞 {{ user_obj.phone }}</p>
+
+        <p class="joined">
+            🕒 Joined: {{ user_obj.created_at|date:"d M Y" }}
+        </p>
+
+        <!-- ACTIONS (SAFE SLUG CHECK) -->
+        <div class="actions">
+
+            {% if user_obj.slug %}
+
+                <a href="{% url 'user_update' user_obj.slug %}" class="edit">
+                    ✏️ Edit
+                </a>
+
+                <a href="{% url 'user_delete' user_obj.slug %}" class="delete">
+                    🗑️ Delete
+                </a>
+
+            {% else %}
+
+                <p style="color:red; font-size:13px;">
+                    ⚠ User slug mavjud emas
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+/* PAGE */
+.profile-page{
+    min-height:80vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+/* CARD */
+.card{
+    width:100%;
+    max-width:480px;
+
+    text-align:center;
+
+    padding:40px;
+
+    background:rgba(255,255,255,0.04);
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:24px;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.5);
+
+    animation:fadeUp .6s ease;
+}
+
+/* AVATAR */
+.avatar img{
+    width:160px;
+    height:160px;
+    border-radius:50%;
+    object-fit:cover;
+    border:3px solid rgba(255,255,255,0.1);
+    transition:.3s;
+}
+
+.avatar img:hover{
+    transform:scale(1.05);
+}
+
+/* TEXT */
+h1{
+    margin-top:15px;
+    color:white;
+}
+
+.email{ color:#38bdf8; }
+.phone{ color:#facc15; }
+
+.joined{
+    color:#a1a1aa;
+    font-size:13px;
+}
+
+/* ACTIONS */
+.actions{
+    margin-top:25px;
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+/* BUTTONS */
+.actions a{
+    padding:12px 18px;
+    border-radius:12px;
+    text-decoration:none;
+    font-weight:600;
+    transition:.3s;
+}
+
+/* EDIT */
+.edit{
+    background:#7c3aed;
+    color:white;
+}
+
+.edit:hover{
+    transform:translateY(-3px);
+}
+
+/* DELETE */
+.delete{
+    background:#ef4444;
+    color:white;
+}
+
+.delete:hover{
+    transform:translateY(-3px);
+}
+
+/* ANIMATION */
+@keyframes fadeUp{
+    from{opacity:0;transform:translateY(30px);}
+    to{opacity:1;transform:translateY(0);}
+}
+
+</style>
+
+{% endblock %}

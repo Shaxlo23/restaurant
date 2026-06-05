@@ -1,0 +1,268 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="update-wrapper">
+
+    <div class="update-card">
+
+        <div class="header">
+            <h1>✏️ Update Dish</h1>
+            <p>Edit your menu item information</p>
+        </div>
+
+        <form method="POST" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <div class="form-group">
+
+                <label>Dish Name</label>
+
+                <input
+                    type="text"
+                    name="name"
+                    value="{{ dish.name }}"
+                    required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Price</label>
+
+                <input
+                    type="number"
+                    name="price"
+                    value="{{ dish.price }}"
+                    required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Current Image</label>
+
+                {% if dish.image %}
+                    <img
+                        src="{{ dish.image.url }}"
+                        alt="{{ dish.name }}"
+                        class="preview-image"
+                    >
+                {% endif %}
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Change Image</label>
+
+                <input
+                    type="file"
+                    name="image"
+                    accept="image/*"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Availability</label>
+
+                <label class="switch-label">
+
+                    <input
+                        type="checkbox"
+                        name="is_available"
+                        {% if dish.is_available %}
+                            checked
+                        {% endif %}
+                    >
+
+                    Available
+
+                </label>
+
+            </div>
+
+            <button type="submit">
+                💾 Save Changes
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<style>
+
+.update-wrapper{
+    display:flex;
+    justify-content:center;
+    padding:40px 20px;
+}
+
+.update-card{
+
+    width:100%;
+    max-width:750px;
+
+    background:rgba(255,255,255,.05);
+
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:28px;
+
+    padding:40px;
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.45);
+
+    animation:slideUp .8s ease;
+}
+
+.header{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.header h1{
+
+    margin-bottom:10px;
+
+    background:linear-gradient(
+        90deg,
+        #38bdf8,
+        #14b8a6
+    );
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.header p{
+    color:#9ca3af;
+}
+
+.form-group{
+    margin-bottom:22px;
+}
+
+.form-group label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    color:#d4d4d8;
+
+    font-weight:500;
+}
+
+input[type="text"],
+input[type="number"]{
+
+    width:100%;
+
+    padding:14px;
+
+    background:#111827;
+
+    color:white;
+
+    border-radius:14px;
+
+    border:1px solid rgba(255,255,255,.08);
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus{
+
+    outline:none;
+
+    border-color:#38bdf8;
+
+    box-shadow:
+        0 0 0 4px rgba(56,189,248,.15);
+}
+
+.preview-image{
+
+    width:220px;
+    height:170px;
+
+    object-fit:cover;
+
+    border-radius:18px;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    margin-top:10px;
+}
+
+.preview-image:hover{
+    transform:scale(1.04);
+}
+
+.switch-label{
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    cursor:pointer;
+}
+
+button{
+
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:16px;
+
+    background:linear-gradient(
+        135deg,
+        #38bdf8,
+        #14b8a6
+    );
+
+    color:white;
+
+    font-size:16px;
+    font-weight:600;
+
+    cursor:pointer;
+}
+
+button:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:
+        0 12px 25px rgba(56,189,248,.30);
+}
+
+@keyframes slideUp{
+
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+</style>
+
+{% endblock %}

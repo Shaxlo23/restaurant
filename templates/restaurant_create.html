@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="page">
+
+    <!-- TOAST -->
+    {% if messages %}
+        <div class="toast-container">
+            {% for message in messages %}
+                <div class="toast">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="card">
+
+        <h1>🍽️ Create Restaurant</h1>
+        <p class="subtitle">Build your restaurant profile</p>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <input type="text" name="name" placeholder="Restaurant name" required>
+
+            <input type="text" name="address" placeholder="Address" required>
+
+            <input type="text" name="phone" placeholder="Phone number" required>
+
+            <label>Upload Logo</label>
+            <input type="file" name="logo">
+
+            <button type="submit">🚀 Create Restaurant</button>
+
+        </form>
+
+    </div>
+</div>
+
+<style>
+
+/* BACKGROUND */
+.page{
+    min-height:80vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:radial-gradient(circle at top,#1a1a1a,#0f0f0f);
+}
+
+/* CARD */
+.card{
+    width:420px;
+    padding:30px;
+    border-radius:20px;
+
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
+    backdrop-filter:blur(18px);
+
+    color:white;
+    animation:fadeUp .6s ease;
+}
+
+/* TITLE */
+.card h1{
+    margin-bottom:5px;
+}
+
+.subtitle{
+    color:#aaa;
+    margin-bottom:20px;
+}
+
+/* INPUTS */
+input{
+    width:100%;
+    margin:10px 0;
+    padding:12px;
+
+    border-radius:12px;
+    border:1px solid #2a2a2a;
+
+    background:#0f0f0f;
+    color:white;
+
+    outline:none;
+    transition:.3s;
+}
+
+input:focus{
+    border-color:#48dbfb;
+    box-shadow:0 0 10px rgba(72,219,251,.3);
+}
+
+/* BUTTON */
+button{
+    width:100%;
+    margin-top:15px;
+    padding:12px;
+
+    border:none;
+    border-radius:12px;
+
+    background:linear-gradient(90deg,#ff6b6b,#feca57);
+    font-weight:bold;
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+button:hover{
+    transform:translateY(-3px);
+}
+
+/* TOAST */
+.toast-container{
+    position:fixed;
+    top:20px;
+    right:20px;
+    z-index:999;
+}
+
+.toast{
+    background:#111;
+    border:1px solid rgba(255,255,255,0.1);
+    color:white;
+    padding:12px 18px;
+    margin-bottom:10px;
+    border-radius:10px;
+    animation:slideIn .4s ease, fadeOut 3s forwards;
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp{
+    from{opacity:0;transform:translateY(30px);}
+    to{opacity:1;transform:translateY(0);}
+}
+
+@keyframes slideIn{
+    from{transform:translateX(100%);opacity:0;}
+    to{transform:translateX(0);opacity:1;}
+}
+
+@keyframes fadeOut{
+    0%{opacity:1;}
+    80%{opacity:1;}
+    100%{opacity:0;display:none;}
+}
+
+</style>
+
+{% endblock %}

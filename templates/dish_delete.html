@@ -1,0 +1,248 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="delete-wrapper">
+
+    <div class="delete-card">
+
+        <div class="icon-box">
+            🗑️
+        </div>
+
+        <h1>Delete Dish</h1>
+
+        <p class="warning-text">
+            This action cannot be undone.
+        </p>
+
+        <div class="dish-preview">
+
+            {% if dish.image %}
+                <img
+                    src="{{ dish.image.url }}"
+                    alt="{{ dish.name }}"
+                >
+            {% endif %}
+
+            <h2>{{ dish.name }}</h2>
+
+            <div class="price">
+                ${{ dish.price }}
+            </div>
+
+            <div class="restaurant-name">
+                🍽️ {{ dish.restaurant.name }}
+            </div>
+
+        </div>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="action-buttons">
+
+                <button
+                    type="submit"
+                    class="delete-btn"
+                >
+                    Delete Dish
+                </button>
+
+                <a
+                    href="{% url 'restaurant_detail' dish.restaurant.slug %}"
+                    class="cancel-btn"
+                >
+                    Cancel
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<style>
+
+.delete-wrapper{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px 20px;
+}
+
+.delete-card{
+
+    width:100%;
+    max-width:650px;
+
+    background:rgba(255,255,255,.05);
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:30px;
+
+    padding:40px;
+
+    text-align:center;
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.45);
+
+    animation:slideUp .7s ease;
+}
+
+.icon-box{
+    font-size:60px;
+    margin-bottom:15px;
+
+    animation:floatIcon 3s ease-in-out infinite;
+}
+
+h1{
+    margin-bottom:10px;
+    font-size:2rem;
+}
+
+.warning-text{
+    color:#f87171;
+    margin-bottom:30px;
+}
+
+.dish-preview{
+    padding:20px;
+}
+
+.dish-preview img{
+
+    width:220px;
+    height:170px;
+
+    object-fit:cover;
+
+    border-radius:18px;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    margin:auto;
+    margin-bottom:20px;
+
+    transition:.4s;
+}
+
+.dish-preview img:hover{
+    transform:scale(1.05);
+}
+
+.dish-preview h2{
+    margin-bottom:10px;
+}
+
+.price{
+    color:#4ade80;
+    font-size:1.2rem;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.restaurant-name{
+    color:#a1a1aa;
+}
+
+.action-buttons{
+
+    margin-top:30px;
+
+    display:flex;
+    gap:15px;
+
+    justify-content:center;
+    flex-wrap:wrap;
+}
+
+.delete-btn{
+
+    border:none;
+
+    padding:14px 26px;
+
+    border-radius:14px;
+
+    background:linear-gradient(
+        135deg,
+        #dc2626,
+        #ef4444
+    );
+
+    color:white;
+
+    font-weight:600;
+
+    cursor:pointer;
+}
+
+.delete-btn:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:
+        0 12px 25px rgba(239,68,68,.35);
+}
+
+.cancel-btn{
+
+    padding:14px 26px;
+
+    border-radius:14px;
+
+    text-decoration:none;
+
+    background:#18181b;
+
+    color:white;
+
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.cancel-btn:hover{
+
+    transform:translateY(-4px);
+
+    background:#27272a;
+}
+
+@keyframes slideUp{
+
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes floatIcon{
+
+    0%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-8px);
+    }
+
+    100%{
+        transform:translateY(0);
+    }
+}
+
+</style>
+
+{% endblock %}

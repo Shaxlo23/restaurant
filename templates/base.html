@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FoodHub</title>
+
+    {% load static %}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        :root{
+            --bg:#09090b;
+            --card:#141418;
+            --border:rgba(255,255,255,.08);
+            --text:#ffffff;
+            --muted:#a1a1aa;
+            --accent:#f97316;
+            --accent2:#38bdf8;
+        }
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            transition:.3s ease;
+        }
+
+        html{
+            scroll-behavior:smooth;
+        }
+
+        body{
+            min-height:100vh;
+            font-family:'Poppins',sans-serif;
+            background:
+                radial-gradient(circle at top left,#1e293b 0%,transparent 35%),
+                radial-gradient(circle at top right,#312e81 0%,transparent 35%),
+                var(--bg);
+            color:var(--text);
+            overflow-x:hidden;
+        }
+
+        .container{
+            max-width:1400px;
+            margin:auto;
+            padding:40px 24px;
+            min-height:80vh;
+            animation:fadeUp .8s ease;
+        }
+
+        @keyframes fadeUp{
+            from{
+                opacity:0;
+                transform:translateY(25px);
+            }
+            to{
+                opacity:1;
+                transform:translateY(0);
+            }
+        }
+
+        @keyframes floatGlow{
+            0%{
+                transform:translateY(0);
+            }
+            50%{
+                transform:translateY(-8px);
+            }
+            100%{
+                transform:translateY(0);
+            }
+        }
+
+        .glass-card{
+            background:rgba(255,255,255,.04);
+            backdrop-filter:blur(18px);
+            border:1px solid var(--border);
+            border-radius:24px;
+            box-shadow:
+                0 8px 30px rgba(0,0,0,.35);
+        }
+
+        .section-title{
+            font-size:2rem;
+            font-weight:700;
+            margin-bottom:25px;
+        }
+
+        .btn{
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            gap:10px;
+            padding:12px 22px;
+            border:none;
+            border-radius:14px;
+            cursor:pointer;
+            text-decoration:none;
+            color:white;
+            font-weight:600;
+            background:linear-gradient(
+                135deg,
+                var(--accent),
+                #fb7185
+            );
+        }
+
+        .btn:hover{
+            transform:translateY(-3px);
+            box-shadow:
+                0 10px 25px rgba(249,115,22,.35);
+        }
+
+        img{
+            max-width:100%;
+            display:block;
+        }
+
+        a{
+            text-decoration:none;
+            color:inherit;
+        }
+
+        ::-webkit-scrollbar{
+            width:10px;
+        }
+
+        ::-webkit-scrollbar-track{
+            background:#09090b;
+        }
+
+        ::-webkit-scrollbar-thumb{
+            background:linear-gradient(
+                180deg,
+                var(--accent),
+                var(--accent2)
+            );
+            border-radius:999px;
+        }
+
+        ::selection{
+            background:var(--accent);
+            color:white;
+        }
+
+        @media (max-width:768px){
+
+            .container{
+                padding:25px 15px;
+            }
+
+            .section-title{
+                font-size:1.6rem;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    {% include 'header.html' %}
+
+    <main class="container">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    {% include 'footer.html' %}
+
+</body>
+</html>

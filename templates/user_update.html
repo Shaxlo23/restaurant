@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="page">
+
+    <form method="POST" enctype="multipart/form-data" class="card">
+
+        {% csrf_token %}
+
+        <h1>✏️ Update Profile</h1>
+
+        <!-- IMAGE -->
+        <div class="avatar">
+
+            {% if user_obj.image %}
+                <img src="{{ user_obj.image.url }}">
+            {% else %}
+                <img src="{{ MEDIA_URL }}images/default.jpg">
+            {% endif %}
+
+        </div>
+
+        <!-- GRID -->
+        <div class="grid">
+
+            <input type="text" name="first_name" value="{{ user_obj.first_name }}" placeholder="First name">
+
+            <input type="text" name="last_name" value="{{ user_obj.last_name }}" placeholder="Last name">
+
+        </div>
+
+        <input type="email" name="email" value="{{ user_obj.email }}" placeholder="Email">
+
+        <input type="text" name="phone" value="{{ user_obj.phone }}" placeholder="Phone">
+
+        <input type="file" name="image">
+
+        <button type="submit">💾 Save Changes</button>
+
+    </form>
+
+</div>
+
+<style>
+
+/* PAGE */
+.page{
+    min-height:80vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+/* CARD */
+.card{
+    width:100%;
+    max-width:520px;
+
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+
+    padding:35px;
+
+    background:rgba(255,255,255,0.04);
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:22px;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.5);
+
+    animation:fadeUp .6s ease;
+}
+
+/* TITLE */
+h1{
+    text-align:center;
+    background:linear-gradient(90deg,#38bdf8,#f97316);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+/* AVATAR */
+.avatar{
+    display:flex;
+    justify-content:center;
+}
+
+.avatar img{
+    width:130px;
+    height:130px;
+
+    border-radius:50%;
+    object-fit:cover;
+
+    border:3px solid rgba(255,255,255,0.1);
+
+    transition:.3s;
+}
+
+.avatar img:hover{
+    transform:scale(1.05);
+}
+
+/* GRID */
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+/* INPUTS */
+input{
+    padding:12px 14px;
+
+    border-radius:12px;
+
+    background:#0f0f0f;
+    color:white;
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    outline:none;
+
+    transition:.3s;
+}
+
+input:focus{
+    border-color:#38bdf8;
+    box-shadow:0 0 10px rgba(56,189,248,.25);
+}
+
+/* BUTTON */
+button{
+    padding:14px;
+
+    border:none;
+    border-radius:12px;
+
+    background:linear-gradient(135deg,#38bdf8,#f97316);
+    color:white;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+button:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 25px rgba(56,189,248,.25);
+}
+
+/* ANIMATION */
+@keyframes fadeUp{
+    from{opacity:0;transform:translateY(30px);}
+    to{opacity:1;transform:translateY(0);}
+}
+
+@media(max-width:600px){
+    .grid{
+        grid-template-columns:1fr;
+    }
+}
+
+</style>
+
+{% endblock %}

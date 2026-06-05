@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="auth-page">
+
+    <form method="POST" enctype="multipart/form-data" class="auth-card">
+
+        {% csrf_token %}
+
+        <h1>✨ Create Account</h1>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <div class="grid">
+
+            <input type="text" name="first_name" placeholder="First name" required>
+            <input type="text" name="last_name" placeholder="Last name" required>
+
+        </div>
+
+        <input type="email" name="email" placeholder="Email address" required>
+
+        <input type="text" name="phone" placeholder="Phone number" required>
+
+        <input type="password" name="password" placeholder="Password" required>
+
+        <input type="file" name="image">
+
+        <button type="submit">
+            🚀 Create Account
+        </button>
+
+        <p class="bottom-text">
+            Already have an account?
+            <a href="{% url 'login' %}">Login</a>
+        </p>
+
+    </form>
+
+</div>
+
+<style>
+
+/* PAGE */
+.auth-page{
+    min-height:80vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+/* CARD */
+.auth-card{
+    width:100%;
+    max-width:520px;
+
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+
+    padding:35px;
+
+    background:rgba(255,255,255,0.04);
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:20px;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.5);
+
+    animation:fadeUp .6s ease;
+}
+
+/* TITLE */
+.auth-card h1{
+    text-align:center;
+    font-size:26px;
+    background:linear-gradient(90deg,#f97316,#38bdf8);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+/* GRID */
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+/* INPUTS */
+.auth-card input{
+    padding:12px 14px;
+    border-radius:12px;
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    background:#0f0f0f;
+    color:white;
+
+    outline:none;
+
+    transition:.3s;
+}
+
+.auth-card input:focus{
+    border-color:#38bdf8;
+    box-shadow:0 0 10px rgba(56,189,248,.25);
+}
+
+/* BUTTON */
+.auth-card button{
+    padding:14px;
+
+    border:none;
+    border-radius:12px;
+
+    background:linear-gradient(135deg,#f97316,#fb7185);
+    color:white;
+
+    font-weight:600;
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.auth-card button:hover{
+    transform:translateY(-3px);
+    box-shadow:0 12px 25px rgba(249,115,22,.25);
+}
+
+/* ERROR */
+.error{
+    background:rgba(239,68,68,.15);
+    border:1px solid rgba(239,68,68,.3);
+    color:#f87171;
+
+    padding:10px;
+    border-radius:10px;
+
+    text-align:center;
+}
+
+/* FOOTER TEXT */
+.bottom-text{
+    text-align:center;
+    color:#a1a1aa;
+    font-size:13px;
+}
+
+.bottom-text a{
+    color:#38bdf8;
+    text-decoration:none;
+}
+
+/* ANIMATION */
+@keyframes fadeUp{
+    from{opacity:0;transform:translateY(30px);}
+    to{opacity:1;transform:translateY(0);}
+}
+
+@media(max-width:600px){
+    .grid{
+        grid-template-columns:1fr;
+    }
+}
+
+</style>
+
+{% endblock %}

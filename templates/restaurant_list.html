@@ -1,0 +1,232 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="page">
+
+    <!-- HEADER -->
+    <div class="header">
+        <h1>🍽️ Restaurants</h1>
+        <p>Discover and explore amazing places to eat</p>
+    </div>
+
+    <!-- TOP ACTION -->
+    {% if user.is_authenticated %}
+    <div class="top-bar">
+
+        <!-- SAFE CREATE BUTTON -->
+        {% if 'restaurant_create' in request.resolver_match.url_name|default:'' %}
+        {% else %}
+        <a href="{% url 'restaurant_create' %}" class="add-btn">
+            ➕ Add Restaurant
+        </a>
+        {% endif %}
+
+    </div>
+    {% endif %}
+
+    <!-- GRID -->
+    <div class="grid">
+
+        {% for restaurant in restaurants %}
+
+        <div class="card">
+
+            <!-- IMAGE SAFE -->
+            <div class="image">
+
+                {% if restaurant.logo %}
+                    <img src="{{ restaurant.logo.url }}" alt="{{ restaurant.name }}">
+                {% else %}
+                    <img src="/media/logos/default.jpg" alt="default">
+                {% endif %}
+
+            </div>
+
+            <div class="body">
+
+                <h2>{{ restaurant.name }}</h2>
+
+                <p>📍 {{ restaurant.address }}</p>
+                <p>📞 {{ restaurant.phone }}</p>
+
+                <p class="owner">
+                    👤
+                    {% if restaurant.owner %}
+                        {{ restaurant.owner.first_name }} {{ restaurant.owner.last_name }}
+                    {% else %}
+                        No owner
+                    {% endif %}
+                </p>
+
+                <!-- ACTIONS SAFE -->
+                <div class="actions">
+
+                    {% if restaurant.slug %}
+
+                        <a href="{% url 'restaurant_detail' restaurant.slug %}" class="view">
+                            View
+                        </a>
+
+                        {% if user == restaurant.owner %}
+
+                            <a href="{% url 'restaurant_update' restaurant.slug %}" class="edit">
+                                Edit
+                            </a>
+
+                            <a href="{% url 'restaurant_delete' restaurant.slug %}" class="delete">
+                                Delete
+                            </a>
+
+                        {% endif %}
+
+                    {% else %}
+                        <span class="danger-text">⚠ No slug (run migration fix)</span>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <p class="empty">No restaurants found 🍽️</p>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+<style>
+
+.page{
+    max-width:1200px;
+    margin:auto;
+    padding:40px;
+}
+
+/* HEADER */
+.header{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.header h1{ color:white; }
+.header p{ color:#a1a1aa; }
+
+/* TOP BAR */
+.top-bar{
+    text-align:right;
+    margin-bottom:25px;
+}
+
+.add-btn{
+    padding:10px 16px;
+    border-radius:12px;
+    text-decoration:none;
+    background:linear-gradient(135deg,#f97316,#fb7185);
+    color:white;
+    font-weight:600;
+    transition:.3s;
+}
+
+.add-btn:hover{
+    transform:translateY(-3px);
+}
+
+/* GRID */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:20px;
+}
+
+/* CARD */
+.card{
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:20px;
+    overflow:hidden;
+    transition:.3s;
+    animation:fadeUp .5s ease;
+}
+
+.card:hover{
+    transform:translateY(-10px) scale(1.02);
+    box-shadow:0 15px 30px rgba(0,0,0,.4);
+}
+
+/* IMAGE */
+.image img{
+    width:100%;
+    height:200px;
+    object-fit:cover;
+}
+
+/* BODY */
+.body{
+    padding:18px;
+}
+
+.body h2{ color:white; }
+
+.body p{
+    color:#a1a1aa;
+    margin:5px 0;
+}
+
+/* OWNER */
+.owner{
+    font-size:13px;
+    color:#71717a;
+}
+
+/* ACTIONS */
+.actions{
+    display:flex;
+    gap:10px;
+    margin-top:15px;
+    flex-wrap:wrap;
+}
+
+.actions a{
+    padding:8px 12px;
+    border-radius:10px;
+    text-decoration:none;
+    font-size:13px;
+    transition:.3s;
+}
+
+/* BUTTONS */
+.view{ background:#3b82f6; color:white; }
+.edit{ background:#f59e0b; color:white; }
+.delete{ background:#ef4444; color:white; }
+
+.actions a:hover{
+    transform:translateY(-3px);
+}
+
+/* EMPTY */
+.empty{
+    text-align:center;
+    color:#a1a1aa;
+}
+
+/* ERROR */
+.danger-text{
+    color:#ef4444;
+    font-size:13px;
+}
+
+/* ANIMATION */
+@keyframes fadeUp{
+    from{opacity:0;transform:translateY(30px);}
+    to{opacity:1;transform:translateY(0);}
+}
+
+</style>
+
+{% endblock %}
